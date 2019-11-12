@@ -33,6 +33,7 @@ def print_info(interfaces,hosts):
     print("{0:25}:{1:9} {2:7}{3:10}{4:6} {5}".format("Interface Name","Speed","Status","Type","Vlan","Other"))
     for interface in natural_sort(interfaces['response']):
         if interface['id'] in id_to_host:
+            #print(interface)
             ip, mac = id_to_host[interface['id']]
             extra = "{ip}/{mac}".format(ip=ip,mac=mac)
 
@@ -42,11 +43,12 @@ def print_info(interfaces,hosts):
             extra = "{trunk}{description}".format(trunk=interface['portMode'],description=interface['description'])
         else:
             extra = ""
-
         if interface['interfaceType'] == "Physical":
             total_ports +=1
             if interface['status'] == "up":
                 total_up+=1
+        if interface['vlanId'] is None:
+            interface['vlanId'] = ''
         print("{portName:25}:{speed:9} {status:7}{interfaceType:10}{vlanId:6} {extra}".format(portName=interface['portName'],
                                                            speed=interface['speed'],
                                                            status=interface['status'],
