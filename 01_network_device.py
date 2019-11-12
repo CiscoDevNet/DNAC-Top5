@@ -22,6 +22,8 @@ if __name__ == "__main__":
 
         for device in response['response']:
             uptime = "N/A" if device['upTime'] is None else device['upTime']
+
+            # this is for the case of switch stacks.. multiple serial and model numbers
             if  device['serialNumber'] is not None and "," in device['serialNumber']:
                 serialPlatformList = zip(device['serialNumber'].split(","), device['platformId'].split(","))
             else:
